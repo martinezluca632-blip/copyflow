@@ -280,7 +280,7 @@ export default function App() {
         method: "POST",
         headers: { 
   "Content-Type": "application/json",
-  "x-api-key": "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",
+"x-api-key": import.meta.env.VITE_ANTHROPIC_KEY,
   "anthropic-version": "2023-06-01",
   "anthropic-dangerous-direct-browser-access": "true"
 },
