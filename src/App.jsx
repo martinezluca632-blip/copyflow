@@ -276,22 +276,13 @@ export default function App() {
     }
     setGenerating(true); setOutput("");
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/generate", {
         method: "POST",
-        headers: {
-  "Content-Type": "application/json",
-  "x-api-key": "import.meta.env.VITE_ANTHROPIC_KEY",
-  "anthropic-version": "2023-06-01",
-  "anthropic-dangerous-direct-browser-access": "true"
-},
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [{ role: "user", content: PROMPTS[tool](input) }],
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: PROMPTS[tool](input) }),
       });
       const data = await res.json();
-      const text = data.content?.[0]?.text || "Erreur lors de la génération.";
+      const text = data.text || "Erreur lors de la génération.";
       setOutput(text);
 
       // Déduire crédits en base Supabase
