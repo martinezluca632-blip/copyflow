@@ -21,9 +21,12 @@ export default async function handler(req, res) {
       }),
     });
     const data = await response.json();
-    const text = data.content && data.content[0] ? data.content[0].text : 'Erreur generation.';
+    if (data.error) {
+      return res.status(200).json({ text: 'ERREUR: ' + data.error.message });
+    }
+    const text = data.content && data.content[0] ? data.content[0].text : JSON.stringify(data);
     return res.status(200).json({ text });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ text: 'CATCH: ' + error.message });
   }
 }
