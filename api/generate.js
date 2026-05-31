@@ -21,9 +21,9 @@ export default async function handler(req, res) {
       }),
     });
     const data = await response.json();
-    const text = data.content?.[0]?.text || 'Erreur lors de la generation.';
-    res.status(200).json({ text });
+    const text = data.content && data.content[0] ? data.content[0].text : 'Erreur generation.';
+    return res.status(200).json({ text });
   } catch (error) {
-    res.status(500).json({ error: 'Erreur API' });
+    return res.status(500).json({ error: error.message });
   }
 }
